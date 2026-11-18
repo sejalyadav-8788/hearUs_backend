@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>CampusResolve - Student Login</title>
+    <title>hearUs - Student Login</title>
 
     <style>
         * {
@@ -203,10 +203,10 @@
     <div class="brand">
 
         <div class="brand-icon">
-            CR
+            hU
         </div>
 
-        <h1>CampusResolve</h1>
+        <h1>hearUs</h1>
 
         <p>Campus grievance resolution platform</p>
 
@@ -265,7 +265,7 @@
                 type="submit"
                 id="loginButton"
             >
-                Login to CampusResolve
+                Login to hearUs
             </button>
 
         </form>
@@ -277,7 +277,7 @@
 
 
     <p class="footer-text">
-        CampusResolve • Making campus issues easier to resolve
+        hearUs • Making campus issues easier to resolve
     </p>
 
 </div>
@@ -285,7 +285,7 @@
 
 <script>
 
-    const API_URL = "https://campusresolve-501n.onrender.com";
+    const API_URL = "http://localhost:8080";
 
     document.getElementById("loginForm").addEventListener(
         "submit",
@@ -345,7 +345,7 @@
 
                     loginButton.disabled = false;
                     loginButton.innerText =
-                        "Login to CampusResolve";
+                        "Login to hearUs";
 
                     return;
                 }
@@ -356,10 +356,21 @@
 
 
                 // Keep the existing backend authentication behavior
-                localStorage.setItem(
-                    "studentToken",
-                    token
-                );
+                // Only student accounts may use this portal
+                const meRes = await fetch(API_URL + "/api/auth/me", {
+                    headers: { "Authorization": "Bearer " + token }
+                });
+                const me = meRes.ok ? await meRes.json() : null;
+
+                if (!me || (me.role || "").toUpperCase() !== "STUDENT") {
+                    message.innerText = "This portal is for students. Staff should use the Authority or Admin portal.";
+                    message.style.display = "block";
+                    loginButton.disabled = false;
+                    loginButton.innerText = "Login to hearUs";
+                    return;
+                }
+
+                localStorage.setItem("studentToken", token);
 
 
                 // Redirect to Student Dashboard
@@ -387,7 +398,7 @@
                     false;
 
                 loginButton.innerText =
-                    "Login to CampusResolve";
+                    "Login to hearUs";
             }
 
         }

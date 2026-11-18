@@ -1,4 +1,3 @@
-```html
 <!DOCTYPE html>
 <html lang="en">
 
@@ -6,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>CampusResolve | Authority Dashboard</title>
+    <title>hearUs | Authority Dashboard</title>
 
     <style>
 
@@ -601,6 +600,13 @@
 
         }
 
+    
+        /* ===== toasts ===== */
+        .toast-wrap{position:fixed;right:18px;bottom:18px;display:flex;flex-direction:column;gap:10px;z-index:9999;max-width:340px}
+        .toast{padding:12px 16px;border-radius:10px;color:#fff;font:600 14px "Segoe UI",Arial,sans-serif;box-shadow:0 8px 24px rgba(15,23,42,.25);animation:toastIn .25s ease;background:#1e293b}
+        .toast.ok{background:#16a34a}.toast.warn{background:#d97706}.toast.error{background:#dc2626}
+        @keyframes toastIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+        @media (prefers-reduced-motion:reduce){.toast{animation:none}}
     </style>
 
 </head>
@@ -616,10 +622,10 @@
     <div class="brand">
 
         <div class="brand-icon">
-            CR
+            hU
         </div>
 
-        <h1>CampusResolve</h1>
+        <h1>hearUs</h1>
 
     </div>
 
@@ -807,10 +813,32 @@
 
 <script>
 
+    /* ================= TOASTS ================= */
+
+    function toast(msg, type) {
+        let wrap = document.querySelector(".toast-wrap");
+        if (!wrap) {
+            wrap = document.createElement("div");
+            wrap.className = "toast-wrap";
+            wrap.setAttribute("role", "status");
+            document.body.appendChild(wrap);
+        }
+        const t = document.createElement("div");
+        t.className = "toast " + (type || "");
+        t.textContent = msg;
+        wrap.appendChild(t);
+        setTimeout(() => {
+            t.style.transition = "opacity .3s";
+            t.style.opacity = "0";
+            setTimeout(() => t.remove(), 300);
+        }, 4500);
+    }
+
+
 
     /* ================= CONFIG ================= */
 
-    const API_URL = "https://campusresolve-501n.onrender.com";
+    const API_URL = "http://localhost:8080";
     const token =
         localStorage.getItem("authorityToken");
 
@@ -1122,6 +1150,19 @@
                     </div>
 
 
+                    <div class="detail">
+
+                        <span class="detail-label">
+                            Escalation level
+                        </span>
+
+                        <span class="detail-value">
+                            ${c.escalationLevel > 0 ? "Level " + c.escalationLevel : "Not escalated"}
+                        </span>
+
+                    </div>
+
+
                 </div>
 
 
@@ -1190,9 +1231,9 @@
 
         const pending =
             complaints.filter(
-                c =>
-                    String(c.status).toUpperCase() ===
-                    "PENDING"
+                c => ["OPEN", "ASSIGNED", "ESCALATED"].includes(
+                    String(c.status).toUpperCase()
+                )
             ).length;
 
 
@@ -1282,18 +1323,17 @@
 
             if (!response.ok) {
 
-                throw new Error(
-                    "Unable to update complaint."
-                );
+                let reason = "Unable to update complaint.";
+                try {
+                    const body = await response.json();
+                    if (body && body.error) reason = body.error;
+                } catch (e) { /* keep the default message */ }
+                throw new Error(reason);
 
             }
 
 
-            alert(
-                status === "RESOLVED"
-                    ? "Complaint marked as resolved."
-                    : "Complaint moved to in progress."
-            );
+            toast(status === "RESOLVED" ? "Complaint marked as resolved." : "Complaint moved to in progress.", "ok");
 
 
             await loadComplaints();
@@ -1305,7 +1345,7 @@
 
             console.error(error);
 
-            alert(error.message);
+            toast(error.message, "error");
 
         }
 
@@ -1344,9 +1384,71 @@
 
 
 
+    /* ================= ROLE-AWARE HEADING ================= */
+
+    async function setTitle() {
+        try {
+            const r = await fetch(API_URL + "/api/auth/me", {
+                headers: { "Authorization": "Bearer " + token }
+            });
+            if (!r.ok) return;
+            const me = await r.json();
+            const role = (me.role || "").toUpperCase();
+
+            const names = { COORDINATOR: "Coordinator", WARDEN: "Warden", HOD: "HOD",
+                            DEAN: "Dean", FACULTY: "Faculty", ADMIN: "Admin" };
+            const intro = {
+                COORDINATOR: "Complaints from your department reach you first. Resolve them before the deadline.",
+                HOD: "Complaints the Coordinator did not resolve in time are escalated to you.",
+                WARDEN: "Hostel complaints reach you first. Resolve them before the deadline.",
+                DEAN: "Sensitive and escalated complaints reach you here.",
+                FACULTY: "Complaints assigned to you.",
+                ADMIN: "Complaints that have been escalated all the way up reach you here."
+            };
+
+            const label = names[role] || "Authority";
+            document.querySelector(".welcome h2").innerText = label + " Dashboard";
+            document.querySelector(".welcome p").innerText =
+                (intro[role] || "") + (me.department ? "  Department: " + me.department : "");
+            document.querySelector(".authority-badge").innerHTML =
+                '<span class="online-dot"></span> ' + label + " Portal";
+            document.title = "hearUs | " + label + " Dashboard";
+        } catch (e) { console.error(e); }
+    }
+
+
     /* ================= START ================= */
 
+    setTitle();
     loadComplaints();
+
+
+    /* ================= NEW-ASSIGNMENT ALERTS ================= */
+
+    let knownIds = null;
+
+    async function pollAssignments() {
+        if (document.hidden) return;
+        try {
+            const r = await fetch(API_URL + "/api/authority/complaints", {
+                headers: { "Authorization": "Bearer " + token }
+            });
+            if (!r.ok) return;
+            const list = await r.json();
+            if (knownIds) {
+                const fresh = list.filter(c => !knownIds.has(c.id));
+                if (fresh.length) {
+                    toast("New complaint assigned: " + fresh[0].title +
+                          (fresh.length > 1 ? " (+" + (fresh.length - 1) + " more)" : ""), "warn");
+                    loadComplaints();
+                }
+            }
+            knownIds = new Set(list.map(c => c.id));
+        } catch (e) { /* ignore network blips */ }
+    }
+
+    pollAssignments();
+    setInterval(pollAssignments, 15000);
 
 
 </script>

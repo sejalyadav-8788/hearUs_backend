@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>CampusResolve | Authority Login</title>
+    <title>hearUs | Authority Login</title>
 
     <style>
 
@@ -364,10 +364,10 @@
     <div class="brand">
 
         <div class="brand-icon">
-            CR
+            hU
         </div>
 
-        <h1>CampusResolve</h1>
+        <h1>hearUs</h1>
 
         <p>
             Campus Grievance Resolution Platform
@@ -387,8 +387,7 @@
             <h2>Authority Login</h2>
 
             <p>
-                Sign in to manage and resolve
-                assigned campus complaints.
+                Coordinators, Wardens, HODs and Deans sign in here to manage and resolve their assigned complaints.
             </p>
 
         </div>
@@ -483,7 +482,7 @@
 
     <div class="footer">
 
-        <span>CampusResolve</span>
+        <span>hearUs</span>
         &nbsp;•&nbsp;
         Authority Portal
 
@@ -499,7 +498,7 @@
 
     /* ================= API ================= */
 
-    const API_URL = "https://campusresolve-501n.onrender.com";
+    const API_URL = "http://localhost:8080";
 
 
     /* ================= FORM ================= */
@@ -621,10 +620,21 @@
 
 
 
-                localStorage.setItem(
-                    "authorityToken",
-                    token
-                );
+                // Coordinator, Warden, HOD, Dean (and Admin, for complaints escalated to them)
+                const meRes = await fetch(API_URL + "/api/auth/me", {
+                    headers: { "Authorization": "Bearer " + token }
+                });
+                if (!meRes.ok) {
+                    throw new Error("Could not verify your account.");
+                }
+                const me = await meRes.json();
+                const role = (me.role || "").toUpperCase();
+
+                if (!["COORDINATOR", "WARDEN", "HOD", "DEAN", "FACULTY", "ADMIN"].includes(role)) {
+                    throw new Error("This portal is for staff accounts only.");
+                }
+
+                localStorage.setItem("authorityToken", token);
 
 
 

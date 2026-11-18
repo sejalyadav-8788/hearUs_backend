@@ -3,8 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CampusResolve - Student Dashboard</title>
-
+    <title>hearUs - Student Dashboard</title>
     <style>
         * {
             box-sizing: border-box;
@@ -12,13 +11,11 @@
             padding: 0;
             font-family: Inter, Arial, sans-serif;
         }
-
         body {
             background: #f8fafc;
             color: #0f172a;
             min-height: 100vh;
         }
-
         .header {
             background: linear-gradient(135deg, #0f172a, #1e293b);
             color: white;
@@ -28,13 +25,11 @@
             align-items: center;
             box-shadow: 0 4px 18px rgba(15, 23, 42, .15);
         }
-
         .brand {
             display: flex;
             align-items: center;
             gap: 12px;
         }
-
         .brand-icon {
             width: 40px;
             height: 40px;
@@ -44,18 +39,15 @@
             background: #2563eb;
             font-weight: 800;
         }
-
         .brand h1 {
             font-size: 22px;
         }
-
         .brand span {
             display: block;
             color: #cbd5e1;
             font-size: 12px;
             margin-top: 2px;
         }
-
         .logout {
             background: #ef4444;
             color: white;
@@ -65,17 +57,14 @@
             cursor: pointer;
             font-weight: 600;
         }
-
         .logout:hover {
             background: #dc2626;
         }
-
         .container {
             max-width: 1120px;
             margin: auto;
             padding: 36px 22px 60px;
         }
-
         .welcome {
             background: linear-gradient(135deg, #eff6ff, #ffffff);
             border: 1px solid #dbeafe;
@@ -83,23 +72,19 @@
             padding: 26px;
             margin-bottom: 26px;
         }
-
         .welcome h2 {
             font-size: 28px;
             margin-bottom: 7px;
         }
-
         .welcome p {
             color: #64748b;
         }
-
         .grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 26px;
             align-items: start;
         }
-
         .card {
             background: white;
             border: 1px solid #e2e8f0;
@@ -107,11 +92,9 @@
             padding: 24px;
             box-shadow: 0 8px 25px rgba(15, 23, 42, .06);
         }
-
         .card.full {
             grid-column: 1 / -1;
         }
-
         .card-header {
             display: flex;
             justify-content: space-between;
@@ -119,21 +102,17 @@
             gap: 15px;
             margin-bottom: 20px;
         }
-
         h2 {
             font-size: 20px;
         }
-
         .helper {
             color: #64748b;
             font-size: 13px;
             margin-top: 4px;
         }
-
         .form-group {
             margin-bottom: 15px;
         }
-
         label {
             display: block;
             font-size: 13px;
@@ -141,7 +120,6 @@
             margin-bottom: 7px;
             color: #334155;
         }
-
         input,
         textarea,
         select {
@@ -154,25 +132,21 @@
             background: white;
             transition: .2s;
         }
-
         input:focus,
         textarea:focus,
         select:focus {
             border-color: #2563eb;
             box-shadow: 0 0 0 3px rgba(37, 99, 235, .10);
         }
-
         textarea {
             min-height: 105px;
             resize: vertical;
         }
-
         .row {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 14px;
         }
-
         .checkbox-group {
             display: flex;
             align-items: center;
@@ -183,16 +157,13 @@
             border-radius: 9px;
             margin: 5px 0 17px;
         }
-
         .checkbox-group input {
             width: auto;
         }
-
         .checkbox-group label {
             margin: 0;
             color: #9a3412;
         }
-
         .submit-btn,
         .refresh-btn {
             border: 0;
@@ -201,32 +172,26 @@
             cursor: pointer;
             font-weight: 700;
         }
-
         .submit-btn {
             background: #2563eb;
             color: white;
             width: 100%;
         }
-
         .submit-btn:hover {
             background: #1d4ed8;
         }
-
         .refresh-btn {
             background: #e2e8f0;
             color: #334155;
         }
-
         .refresh-btn:hover {
             background: #cbd5e1;
         }
-
         #message {
             margin-top: 12px;
             font-size: 13px;
             font-weight: 700;
         }
-
         .complaint {
             border: 1px solid #e2e8f0;
             border-radius: 13px;
@@ -234,11 +199,9 @@
             margin-bottom: 13px;
             background: #f8fafc;
         }
-
         .complaint:last-child {
             margin-bottom: 0;
         }
-
         .complaint-top {
             display: flex;
             justify-content: space-between;
@@ -246,18 +209,15 @@
             gap: 15px;
             margin-bottom: 10px;
         }
-
         .complaint h3 {
             font-size: 16px;
         }
-
         .complaint p {
             margin: 7px 0;
             color: #475569;
             font-size: 13px;
             line-height: 1.5;
         }
-
         .status {
             display: inline-block;
             padding: 5px 10px;
@@ -268,37 +228,30 @@
             background: #dbeafe;
             color: #1d4ed8;
         }
-
         .status.OPEN {
             background: #fef3c7;
             color: #92400e;
         }
-
         .status.ASSIGNED {
             background: #dbeafe;
             color: #1d4ed8;
         }
-
         .status.IN_PROGRESS {
             background: #e0e7ff;
             color: #3730a3;
         }
-
         .status.ESCALATED {
             background: #fee2e2;
             color: #b91c1c;
         }
-
         .status.RESOLVED {
             background: #dcfce7;
             color: #166534;
         }
-
         .status.CLOSED {
             background: #e2e8f0;
             color: #475569;
         }
-
         .empty {
             text-align: center;
             padding: 35px 10px;
@@ -306,446 +259,315 @@
             border: 1px dashed #cbd5e1;
             border-radius: 12px;
         }
-
         @media (max-width: 800px) {
             .grid {
                 grid-template-columns: 1fr;
             }
-
             .card.full {
                 grid-column: auto;
             }
         }
-
         @media (max-width: 560px) {
             .header {
                 padding: 15px 18px;
             }
-
             .brand h1 {
                 font-size: 19px;
             }
-
             .container {
                 padding: 22px 14px 40px;
             }
-
             .card {
                 padding: 18px;
             }
-
             .row {
                 grid-template-columns: 1fr;
                 gap: 0;
             }
-
             .complaint-top {
                 flex-direction: column;
             }
         }
+        /* ===== toasts ===== */
+        .toast-wrap{position:fixed;right:18px;bottom:18px;display:flex;flex-direction:column;gap:10px;z-index:9999;max-width:340px}
+        .toast{padding:12px 16px;border-radius:10px;color:#fff;font:600 14px "Segoe UI",Arial,sans-serif;box-shadow:0 8px 24px rgba(15,23,42,.25);animation:toastIn .25s ease;background:#1e293b}
+        .toast.ok{background:#16a34a}.toast.warn{background:#d97706}.toast.error{background:#dc2626}
+        @keyframes toastIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+        @media (prefers-reduced-motion:reduce){.toast{animation:none}}
+        /* ===== journey tracker + countdown ===== */
+        .tracker{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin:12px 0 4px}
+        .tstep{font-size:11px;font-weight:700;color:#94a3b8;border-top:4px solid #e2e8f0;padding-top:6px}
+        .tstep.on{border-color:#2563eb;color:#1e293b}
+        .tstep.esc{border-color:#ef4444;color:#b91c1c}
+        .tnote{margin:6px 0 8px;padding:7px 10px;border-radius:8px;background:#fee2e2;color:#b91c1c;font-size:12px;font-weight:700}
+        .cd{font-weight:800}.cd.ok{color:#16a34a}.cd.soon{color:#d97706}.cd.late{color:#dc2626}
     </style>
 </head>
-
 <body>
-
 <header class="header">
-
     <div class="brand">
-
         <div class="brand-icon">
-            CR
+            hU
         </div>
-
         <div>
-            <h1>CampusResolve</h1>
+            <h1>hearUs</h1>
             <span>Student Grievance Portal</span>
         </div>
-
     </div>
-
     <button class="logout" onclick="logout()">
         Logout
     </button>
-
 </header>
-
-
 <main class="container">
-
     <section class="welcome">
-
         <h2>
             Student Dashboard
         </h2>
-
         <p>
             Report campus concerns, track deadlines, and follow your complaint until resolution.
         </p>
-
     </section>
-
-
     <div class="grid">
-
-
         <!-- SUBMIT COMPLAINT -->
-
         <section class="card">
-
             <div class="card-header">
-
                 <div>
-
                     <h2>
                         Submit a Complaint
                     </h2>
-
                     <p class="helper">
                         Provide clear details so your complaint can be routed correctly.
                     </p>
-
                 </div>
-
             </div>
-
-
             <form id="complaintForm">
-
-
                 <div class="form-group">
-
                     <label for="title">
                         Title
                     </label>
-
                     <input
                         type="text"
                         id="title"
                         placeholder="e.g. CSE classroom Wi-Fi issue"
                         required
                     >
-
                 </div>
-
-
                 <div class="form-group">
-
                     <label for="description">
                         Description
                     </label>
-
                     <textarea
                         id="description"
                         placeholder="Describe the issue clearly..."
                         required
                     ></textarea>
-
                 </div>
-
-
                 <div class="row">
-
-
                     <div class="form-group">
-
                         <label for="category">
                             Category
                         </label>
-
                         <select id="category" required>
-
                             <option value="">
                                 Select category
                             </option>
-
                             <option value="ACADEMICS">
                                 Academics
                             </option>
-
                             <option value="INFRASTRUCTURE">
                                 Infrastructure
                             </option>
-
                             <option value="HOSTEL">
                                 Hostel
                             </option>
-
                             <option value="EXAMINATION">
                                 Examination
                             </option>
-
                             <option value="LIBRARY">
                                 Library
                             </option>
-
                             <option value="IT">
                                 IT
                             </option>
-
                             <option value="TRANSPORTATION">
                                 Transportation
                             </option>
-
                             <option value="SAFETY">
                                 Safety
                             </option>
-
                             <option value="OTHER">
                                 Other
                             </option>
-
                         </select>
-
                     </div>
-
-
                     <div class="form-group">
-
                         <label for="subcategory">
                             Subcategory
                         </label>
-
                         <input
                             type="text"
                             id="subcategory"
                             placeholder="e.g. Wi-Fi, classroom"
                         >
-
                     </div>
-
                 </div>
-
-
                 <div class="row">
-
-
                     <div class="form-group">
-
                         <label for="priority">
                             Priority
                         </label>
-
                         <select id="priority" required>
-
                             <option value="">
                                 Select priority
                             </option>
-
                             <option value="LOW">
                                 Low
                             </option>
-
                             <option value="MEDIUM">
                                 Medium
                             </option>
-
                             <option value="HIGH">
                                 High
                             </option>
-
                             <option value="URGENT">
                                 Urgent
                             </option>
-
                         </select>
-
                     </div>
-
-
                     <div class="form-group">
-
                         <label for="department">
                             Department
                         </label>
-
-                        <input
-                            type="text"
-                            id="department"
-                            placeholder="e.g. CSE"
-                            required
-                        >
-
+                        <select id="department" required><option value="">Select department</option></select>
                     </div>
-
                 </div>
-
-
                 <div class="form-group">
-
                     <label for="location">
                         Location
                     </label>
-
                     <input
                         type="text"
                         id="location"
                         placeholder="e.g. Block A / Hostel"
                         required
                     >
-
                 </div>
-
-
                 <div class="checkbox-group">
-
                     <input
                         type="checkbox"
                         id="sensitive"
                     >
-
                     <label for="sensitive">
                         This is a sensitive complaint
                     </label>
-
                 </div>
                 <div class="form-group">
-
     <label for="attachment">
         Attachment <span style="font-weight: 400; color: #64748b;">(optional)</span>
     </label>
-
     <input
         type="file"
         id="attachment"
         accept=".jpg,.jpeg,.png,.pdf,.txt,.doc,.docx"
     >
-
     <p class="helper">
         You can attach an image or document supporting your complaint.
     </p>
-
 </div>
-
-
                 <button
                     type="submit"
                     class="submit-btn"
                 >
                     Submit Complaint
                 </button>
-
-
                 <div id="message"></div>
-
             </form>
-
         </section>
-
-
-
         <!-- MY COMPLAINTS -->
-
         <section class="card">
-
             <div class="card-header">
-
                 <div>
-
                     <h2>
                         My Complaints
                     </h2>
-
                     <p class="helper">
                         Track your submitted complaints and resolution deadlines.
                     </p>
-
                 </div>
-
-
                 <button
                     class="refresh-btn"
                     onclick="loadComplaints()"
                 >
                     Refresh
                 </button>
-
             </div>
-
-
             <div id="complaintList">
                 Loading complaints...
             </div>
-
         </section>
-
     </div>
-
 </main>
-
-
-
 <script>
-
-    const API_URL = "https://campusresolve-501n.onrender.com";
-
-    const token = localStorage.getItem("studentToken");
-
-
-    // Check login
-
-    if (!token) {
-
-        alert("Please login first.");
-
-        window.location.href = "login.html";
-
+    /* ================= TOASTS ================= */
+    function toast(msg, type) {
+        let wrap = document.querySelector(".toast-wrap");
+        if (!wrap) {
+            wrap = document.createElement("div");
+            wrap.className = "toast-wrap";
+            wrap.setAttribute("role", "status");
+            document.body.appendChild(wrap);
+        }
+        const t = document.createElement("div");
+        t.className = "toast " + (type || "");
+        t.textContent = msg;
+        wrap.appendChild(t);
+        setTimeout(() => {
+            t.style.transition = "opacity .3s";
+            t.style.opacity = "0";
+            setTimeout(() => t.remove(), 300);
+        }, 4500);
     }
-
-
-
+    const API_URL = "http://localhost:8080";
+    const token = localStorage.getItem("studentToken");
+    // Check login
+    if (!token) {
+        alert("Please login first.");
+        window.location.href = "login.html";
+    }
     // Submit complaint
-     // Submit complaint
-
 document
     .getElementById("complaintForm")
     .addEventListener("submit", async function(event) {
-
         event.preventDefault();
-
         const message =
             document.getElementById("message");
-
         message.style.color = "#2563eb";
         message.innerText =
             "Submitting complaint...";
-
         const complaintData = {
-
             title:
                 document.getElementById("title").value,
-
             description:
                 document.getElementById("description").value,
-
             category:
                 document.getElementById("category").value,
-
             subcategory:
                 document.getElementById("subcategory").value,
-
             priority:
                 document.getElementById("priority").value,
-
             sensitive:
                 document.getElementById("sensitive").checked,
-
             department:
                 document.getElementById("department").value,
-
             location:
                 document.getElementById("location").value
         };
-
         const fileInput =
             document.getElementById("attachment");
-
         const file =
             fileInput.files[0];
-
         try {
-
             const formData = new FormData();
-
             // Add complaint JSON
             const complaintBlob = new Blob(
                 [JSON.stringify(complaintData)],
@@ -753,299 +575,226 @@ document
                     type: "application/json"
                 }
             );
-
             formData.append(
                 "complaint",
                 complaintBlob
             );
-
             // Add file only if selected
             if (file) {
-
                 formData.append(
                     "file",
                     file
                 );
             }
-
             const response = await fetch(
                 API_URL + "/api/complaints",
                 {
-
                     method: "POST",
-
                     headers: {
-
                         "Authorization":
                             "Bearer " + token
-
                     },
-
                     body: formData
                 }
             );
-
             if (!response.ok) {
-
                 const errorText =
                     await response.text();
-
                 console.error(
                     "Server error:",
                     errorText
                 );
-
                 message.style.color =
                     "#dc2626";
-
                 message.innerText =
                     "Failed to submit complaint.";
-
                 return;
             }
-
             const result =
                 await response.json();
-
             console.log(
                 "Complaint created:",
                 result
             );
-
             message.style.color =
                 "#16a34a";
-
             message.innerText =
                 "✓ Complaint submitted successfully!";
-
             document
                 .getElementById("complaintForm")
                 .reset();
-
             loadComplaints();
-
         } catch (error) {
-
             console.error(error);
-
             message.style.color =
                 "#dc2626";
-
             message.innerText =
                 "Cannot connect to server.";
         }
-
     });
-
-
-
     // Load student complaints
-
     async function loadComplaints() {
-
         const complaintList =
             document.getElementById("complaintList");
-
-
         try {
-
             const response = await fetch(
                 API_URL + "/api/complaints/my",
                 {
-
                     headers: {
-
                         "Authorization":
                             "Bearer " + token
-
                     }
-
                 }
             );
-
-
             if (!response.ok) {
-
                 throw new Error(
                     "Failed to load complaints"
                 );
-
             }
-
-
             const complaints =
                 await response.json();
-
-
-            if (complaints.length === 0) {
-
-                complaintList.innerHTML =
-
-                    '<div class="empty">' +
-
-                    'No complaints submitted yet.' +
-
-                    '<br>' +
-
-                    'Submit your first complaint using the form.' +
-
-                    '</div>';
-
-                return;
-
+            // Toast when a complaint changes status since the last refresh
+            const nowStatus = {};
+            complaints.forEach(c => nowStatus[c.id] = c.status);
+            if (window.__prevStatus) {
+                complaints.forEach(c => {
+                    const old = window.__prevStatus[c.id];
+                    if (old && old !== c.status) {
+                        toast('"' + c.title + '" is now ' + formatStatus(c.status),
+                              c.status === "ESCALATED" ? "warn" : "ok");
+                    }
+                });
             }
-
-
+            window.__prevStatus = nowStatus;
+            if (complaints.length === 0) {
+                complaintList.innerHTML =
+                    '<div class="empty">' +
+                    'No complaints submitted yet.' +
+                    '<br>' +
+                    'Submit your first complaint using the form.' +
+                    '</div>';
+                return;
+            }
             complaintList.innerHTML =
-
                 complaints.map(c => `
-
                     <div class="complaint">
-
                         <div class="complaint-top">
-
                             <h3>
                                 ${escapeHtml(c.title)}
                             </h3>
-
                             <span class="status ${c.status}">
                                 ${formatStatus(c.status)}
                             </span>
-
                         </div>
-
-
                         <p>
                             ${escapeHtml(c.description)}
                         </p>
-
-
+                        ${tracker(c)}
                         <p>
-
                             <strong>Category:</strong>
-
                             ${escapeHtml(c.category || "-")}
-
                             &nbsp; | &nbsp;
-
                             <strong>Priority:</strong>
-
                             ${escapeHtml(c.priority || "-")}
-
                         </p>
-
-
                         <p>
-
                             <strong>Department:</strong>
-
                             ${escapeHtml(c.department || "-")}
-
                             &nbsp; | &nbsp;
-
                             <strong>Location:</strong>
-
                             ${escapeHtml(c.location || "-")}
-
                         </p>
-
-
                         <p>
-
-                            <strong>Deadline:</strong>
-
-                            ${
-                                c.deadline
-                                ? new Date(c.deadline).toLocaleString()
-                                : "Not assigned"
-                            }
-
+                            <strong>Currently with:</strong>
+                            ${["RESOLVED", "CLOSED"].includes(c.status) ? "No one (resolved)" : escapeHtml(ROLE_LABEL[c.assignedToRole] || "Unassigned")}
                         </p>
-
-
+                        <p>
+                            <strong>Deadline:</strong>
+                            ${c.deadline ? new Date(c.deadline).toLocaleString() : "Not assigned"} <span class="cd" data-d="${c.deadline || ""}" data-s="${c.status}"></span>
+                        </p>
                         ${
                             c.escalationLevel > 0
-
                             ?
-
                             `<p>
                                 <strong>Escalation level:</strong>
                                 ${c.escalationLevel}
                             </p>`
-
                             :
-
                             ""
                         }
-
                     </div>
-
                 `).join("");
-
-
-
         } catch (error) {
-
             console.error(error);
-
             complaintList.innerText =
                 "Unable to load complaints.";
-
         }
-
     }
-
-
-
     // Format status
-
     function formatStatus(status) {
-
         return (status || "UNKNOWN")
             .replaceAll("_", " ");
-
     }
-
-
-
     // Prevent HTML injection
-
     function escapeHtml(value) {
-
         return String(value ?? "")
-
             .replaceAll("&", "&amp;")
-
             .replaceAll("<", "&lt;")
-
             .replaceAll(">", "&gt;")
-
             .replaceAll('"', "&quot;")
-
             .replaceAll("'", "&#039;");
-
     }
-
-
-
     // Logout
-
     function logout() {
-
         localStorage.removeItem("studentToken");
-
         window.location.href =
             "login.html";
-
     }
-
-
-
-    // Load complaints when page opens
-
+    // Staff role names shown on each complaint
+    const ROLE_LABEL = { COORDINATOR: "Coordinator", WARDEN: "Warden", HOD: "HOD",
+                         DEAN: "Dean", ADMIN: "Admin", FACULTY: "Faculty" };
+    // Fill the department dropdown from the server
+    async function loadDepartments() {
+        const sel = document.getElementById("department");
+        try {
+            const r = await fetch(API_URL + "/api/departments", {
+                headers: { "Authorization": "Bearer " + token }
+            });
+            const list = await r.json();
+            sel.innerHTML = '<option value="">Select department</option>' +
+                list.map(d => '<option value="' + escapeHtml(d) + '">' + escapeHtml(d) + "</option>").join("");
+        } catch (e) { console.error(e); }
+    }
+    // Journey tracker shown on every complaint
+    function tracker(c) {
+        const steps = ["Received", "Assigned", "In progress", "Resolved"];
+        const idx = { OPEN: 0, ASSIGNED: 1, ESCALATED: 1, IN_PROGRESS: 2, RESOLVED: 3, CLOSED: 3 }[c.status] ?? 0;
+        const esc = c.status === "ESCALATED";
+        const bar = steps.map((s, i) =>
+            '<div class="tstep ' + (i <= idx ? "on" : "") + (i === idx && esc ? " esc" : "") + '">' + s + "</div>").join("");
+        const open = !["RESOLVED", "CLOSED"].includes(c.status);
+        const note = c.escalationLevel > 0 && open
+            ? '<div class="tnote">Escalated to level ' + c.escalationLevel + " - now with " +
+              (ROLE_LABEL[c.assignedToRole] || "a senior authority") + "</div>" : "";
+        return '<div class="tracker">' + bar + "</div>" + note;
+    }
+    // Live countdown on every deadline, updated each second
+    function tick() {
+        document.querySelectorAll(".cd").forEach(el => {
+            if (!el.dataset.d || ["RESOLVED", "CLOSED"].includes(el.dataset.s)) { el.textContent = ""; return; }
+            const ms = new Date(el.dataset.d) - Date.now(), a = Math.abs(ms);
+            const d = Math.floor(a / 864e5), h = Math.floor(a % 864e5 / 36e5);
+            const m = Math.floor(a % 36e5 / 6e4), s = Math.floor(a % 6e4 / 1e3);
+            const text = (d ? d + "d " : "") + (h || d ? h + "h " : "") + m + "m " + s + "s";
+            el.textContent = ms < 0 ? "(overdue " + text + ")" : "(" + text + " left)";
+            el.className = "cd " + (ms < 0 ? "late" : ms < 36e5 ? "soon" : "ok");
+        });
+    }
+    // Load complaints when page opens, then keep them fresh
+    loadDepartments();
     loadComplaints();
-
+    setInterval(tick, 1000);
+    setInterval(() => { if (!document.hidden) loadComplaints(); }, 15000);
 </script>
-
 </body>
 </html>

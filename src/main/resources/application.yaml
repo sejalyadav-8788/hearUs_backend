@@ -21,3 +21,9 @@ spring:
 
 server:
   port: 8080
+
+escalation:
+  minutes: 2        # demo value; use 1440 (one day) for real use
+
+jwt:
+  secret: ${JWT_SECRET:change-this-to-a-long-random-string-of-at-least-32-characters}

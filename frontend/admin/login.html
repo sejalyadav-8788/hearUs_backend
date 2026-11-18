@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>CampusResolve | Admin Login</title>
+    <title>hearUs | Admin Login</title>
 
     <style>
 
@@ -422,11 +422,11 @@
     <div class="brand">
 
         <div class="brand-icon">
-            CR
+            hU
         </div>
 
         <h1>
-            CampusResolve
+            hearUs
         </h1>
 
         <p>
@@ -548,7 +548,7 @@
 
     <div class="footer">
 
-        <span>CampusResolve</span>
+        <span>hearUs</span>
 
         &nbsp;•&nbsp;
 
@@ -566,7 +566,7 @@
 
     /* ================= API ================= */
 
-    const API_URL = "https://campusresolve-501n.onrender.com";
+    const API_URL = "http://localhost:8080";
 
 
 
@@ -705,10 +705,18 @@
                  * so we keep the same key.
                  */
 
-                localStorage.setItem(
-                    "token",
-                    token
-                );
+                const meRes = await fetch(API_URL + "/api/auth/me", {
+                    headers: { "Authorization": "Bearer " + token }
+                });
+                if (!meRes.ok) {
+                    throw new Error("Could not verify your account.");
+                }
+                const me = await meRes.json();
+                if ((me.role || "").toUpperCase() !== "ADMIN") {
+                    throw new Error("This portal is for administrators only.");
+                }
+
+                localStorage.setItem("token", token);
 
 
 
