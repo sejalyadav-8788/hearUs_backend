@@ -1,999 +1,1213 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>hearUs - Resolve. Improve. Connect.</title>
-
-    <style>
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: "Segoe UI", Arial, sans-serif;
-        }
-
-        html {
-            scroll-behavior: smooth;
-        }
-
-        body {
-            background: #f8fafc;
-            color: #1e293b;
-        }
-
-        /* ================= NAVBAR ================= */
-
-        nav {
-            width: 100%;
-            height: 72px;
-
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-
-            padding: 0 7%;
-
-            background: rgba(255, 255, 255, 0.95);
-
-            border-bottom: 1px solid #e2e8f0;
-
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-        }
-
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-
-            font-size: 21px;
-            font-weight: 700;
-
-            color: #172033;
-        }
-
-        .logo-icon {
-            width: 38px;
-            height: 38px;
-
-            display: flex;
-            align-items: center;
-            justify-content: center;
-
-            background: #4f46e5;
-            color: white;
-
-            border-radius: 10px;
-
-            font-size: 15px;
-            font-weight: 800;
-        }
-
-        .nav-links {
-            display: flex;
-            align-items: center;
-            gap: 28px;
-        }
-
-        .nav-links a {
-            text-decoration: none;
-            color: #64748b;
-
-            font-size: 14px;
-            font-weight: 500;
-
-            transition: 0.2s;
-        }
-
-        .nav-links a:hover {
-            color: #4f46e5;
-        }
-
-        /* ================= HERO ================= */
-
-        .hero {
-            min-height: 620px;
-
-            display: flex;
-            align-items: center;
-
-            padding: 70px 7%;
-
-            background:
-                radial-gradient(
-                    circle at 80% 20%,
-                    rgba(99, 102, 241, 0.13),
-                    transparent 35%
-                ),
-                linear-gradient(
-                    135deg,
-                    #f8fafc,
-                    #eef2ff
-                );
-        }
-
-        .hero-content {
-            max-width: 700px;
-        }
-
-        .badge {
-            display: inline-block;
-
-            padding: 8px 14px;
-
-            background: #e0e7ff;
-            color: #4338ca;
-
-            border-radius: 30px;
-
-            font-size: 13px;
-            font-weight: 600;
-
-            margin-bottom: 22px;
-        }
-
-        .hero h1 {
-            font-size: clamp(42px, 6vw, 68px);
-
-            line-height: 1.05;
-
-            color: #172033;
-
-            margin-bottom: 22px;
-        }
-
-        .hero h1 span {
-            color: #4f46e5;
-        }
-
-        .hero-description {
-            max-width: 620px;
-
-            color: #64748b;
-
-            font-size: 18px;
-            line-height: 1.7;
-
-            margin-bottom: 32px;
-        }
-
-        .hero-buttons {
-            display: flex;
-            gap: 14px;
-            flex-wrap: wrap;
-        }
-
-        .primary-btn,
-        .secondary-btn {
-            padding: 14px 22px;
-
-            border-radius: 9px;
-
-            text-decoration: none;
-
-            font-size: 14px;
-            font-weight: 600;
-
-            transition: 0.2s;
-        }
-
-        .primary-btn {
-            background: #4f46e5;
-            color: white;
-
-            box-shadow:
-                0 8px 20px rgba(79, 70, 229, 0.20);
-        }
-
-        .primary-btn:hover {
-            background: #4338ca;
-            transform: translateY(-2px);
-        }
-
-        .secondary-btn {
-            background: white;
-            color: #334155;
-
-            border: 1px solid #cbd5e1;
-        }
-
-        .secondary-btn:hover {
-            border-color: #4f46e5;
-            color: #4f46e5;
-        }
-
-        /* ================= STATS ================= */
-
-        .stats {
-            display: flex;
-            gap: 45px;
-
-            margin-top: 55px;
-
-            flex-wrap: wrap;
-        }
-
-        .stat h3 {
-            font-size: 25px;
-            color: #172033;
-        }
-
-        .stat p {
-            margin-top: 4px;
-
-            color: #64748b;
-
-            font-size: 13px;
-        }
-
-        /* ================= FEATURES ================= */
-
-        .features {
-            padding: 90px 7%;
-
-            background: white;
-        }
-
-        .section-heading {
-            text-align: center;
-
-            max-width: 650px;
-
-            margin: 0 auto 50px;
-        }
-
-        .section-heading h2 {
-            font-size: 34px;
-
-            color: #172033;
-
-            margin-bottom: 12px;
-        }
-
-        .section-heading p {
-            color: #64748b;
-
-            line-height: 1.6;
-
-            font-size: 15px;
-        }
-
-        .feature-grid {
-            display: grid;
-
-            grid-template-columns:
-                repeat(3, 1fr);
-
-            gap: 22px;
-
-            max-width: 1100px;
-
-            margin: auto;
-        }
-
-        .feature-card {
-            padding: 30px;
-
-            border: 1px solid #e2e8f0;
-
-            border-radius: 15px;
-
-            background: #ffffff;
-
-            transition: 0.25s;
-        }
-
-        .feature-card:hover {
-            transform: translateY(-5px);
-
-            box-shadow:
-                0 15px 35px rgba(15, 23, 42, 0.08);
-        }
-
-        .feature-icon {
-            width: 48px;
-            height: 48px;
-
-            display: flex;
-            align-items: center;
-            justify-content: center;
-
-            background: #eef2ff;
-
-            color: #4f46e5;
-
-            border-radius: 11px;
-
-            font-size: 22px;
-
-            margin-bottom: 20px;
-        }
-
-        .feature-card h3 {
-            color: #1e293b;
-
-            font-size: 18px;
-
-            margin-bottom: 10px;
-        }
-
-        .feature-card p {
-            color: #64748b;
-
-            font-size: 14px;
-
-            line-height: 1.6;
-        }
-
-        /* ================= HOW IT WORKS ================= */
-
-        .how-it-works {
-            padding: 90px 7%;
-
-            background: #f8fafc;
-        }
-
-        .steps {
-            max-width: 1000px;
-
-            margin: auto;
-
-            display: grid;
-
-            grid-template-columns:
-                repeat(3, 1fr);
-
-            gap: 25px;
-        }
-
-        .step {
-            text-align: center;
-
-            padding: 25px;
-        }
-
-        .step-number {
-            width: 50px;
-            height: 50px;
-
-            margin: 0 auto 18px;
-
-            display: flex;
-            align-items: center;
-            justify-content: center;
-
-            background: #4f46e5;
-
-            color: white;
-
-            border-radius: 50%;
-
-            font-weight: 700;
-        }
-
-        .step h3 {
-            margin-bottom: 9px;
-
-            color: #1e293b;
-        }
-
-        .step p {
-            color: #64748b;
-
-            font-size: 14px;
-
-            line-height: 1.6;
-        }
-
-        /* ================= LOGIN SECTION ================= */
-
-        .login-section {
-            padding: 90px 7%;
-
-            background: white;
-        }
-
-        .login-cards {
-            max-width: 1000px;
-
-            margin: auto;
-
-            display: grid;
-
-            grid-template-columns:
-                repeat(3, 1fr);
-
-            gap: 20px;
-        }
-
-        .login-card {
-            padding: 30px;
-
-            border: 1px solid #e2e8f0;
-
-            border-radius: 15px;
-
-            text-align: center;
-
-            background: white;
-        }
-
-        .login-card h3 {
-            color: #1e293b;
-
-            margin-bottom: 9px;
-        }
-
-        .login-card p {
-            color: #64748b;
-
-            font-size: 13px;
-
-            line-height: 1.5;
-
-            margin-bottom: 20px;
-        }
-
-        .login-btn {
-            display: inline-block;
-
-            padding: 11px 22px;
-
-            border-radius: 8px;
-
-            background: #4f46e5;
-
-            color: white;
-
-            text-decoration: none;
-
-            font-size: 13px;
-
-            font-weight: 600;
-
-            transition: 0.2s;
-        }
-
-        .login-btn:hover {
-            background: #4338ca;
-        }
-
-        /* ================= FOOTER ================= */
-
-        footer {
-            padding: 30px 7%;
-
-            background: #172033;
-
-            color: #cbd5e1;
-
-            text-align: center;
-
-            font-size: 13px;
-        }
-
-        footer strong {
-            color: white;
-        }
-
-        /* ================= RESPONSIVE ================= */
-
-        @media (max-width: 850px) {
-
-            .nav-links {
-                display: none;
-            }
-
-            .feature-grid,
-            .steps,
-            .login-cards {
-                grid-template-columns: 1fr;
-            }
-
-            .hero {
-                padding-top: 60px;
-                padding-bottom: 60px;
-            }
-
-            .stats {
-                gap: 25px;
-            }
-        }
-
-        @media (max-width: 500px) {
-
-            .hero h1 {
-                font-size: 42px;
-            }
-
-            .hero-description {
-                font-size: 16px;
-            }
-
-            .hero-buttons {
-                flex-direction: column;
-            }
-
-            .primary-btn,
-            .secondary-btn {
-                text-align: center;
-            }
-        }
-
-    </style>
-
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HearUs | Your Campus, Your Voice</title>
+
+<style>
+:root {
+    --primary: #3944BC;
+    --dark: #20246F;
+    --light: #F0F1FF;
+    --pale: #F8F8FF;
+    --text: #171B50;
+    --muted: #64708E;
+    --white: #FFFFFF;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Segoe UI", Arial, sans-serif;
+}
+
+html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 85px;
+}
+
+body {
+    background: var(--pale);
+    color: var(--text);
+    overflow-x: hidden;
+}
+
+a {
+    text-decoration: none;
+}
+
+/* NAVBAR */
+
+nav {
+    height: 76px;
+    padding: 0 7%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(255,255,255,0.96);
+    border-bottom: 1px solid #E6E8FF;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    backdrop-filter: blur(12px);
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 25px;
+    font-weight: 800;
+    color: var(--text);
+}
+
+.logo-icon {
+    width: 43px;
+    height: 43px;
+    background: var(--primary);
+    color: white;
+    border-radius: 12px;
+    display: grid;
+    place-items: center;
+    font-size: 19px;
+    font-weight: 900;
+}
+
+.nav-links {
+    display: flex;
+    align-items: center;
+    gap: 34px;
+}
+
+.nav-links a {
+    color: var(--text);
+    font-size: 14px;
+    font-weight: 600;
+    transition: 0.3s;
+}
+
+.nav-links a:hover {
+    color: var(--primary);
+}
+
+.nav-btn {
+    padding: 11px 23px;
+    border-radius: 30px;
+    background: var(--primary);
+    color: white !important;
+}
+
+.menu-btn {
+    display: none;
+    border: none;
+    background: none;
+    font-size: 27px;
+    color: var(--primary);
+    cursor: pointer;
+}
+
+/* HERO */
+
+.hero {
+    min-height: 570px;
+    padding: 65px 7%;
+    display: grid;
+    grid-template-columns: 0.9fr 1.1fr;
+    align-items: center;
+    gap: 35px;
+    background:
+        radial-gradient(circle at 5% 20%, #E4E5FF 0, transparent 30%),
+        linear-gradient(120deg, #FAFAFF, #ECEEFF);
+    position: relative;
+}
+
+.hero-content {
+    position: relative;
+    z-index: 2;
+}
+
+.badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    padding: 10px 17px;
+    border-radius: 30px;
+    background: #E2E4FF;
+    color: var(--primary);
+    font-size: 13px;
+    font-weight: 700;
+    margin-bottom: 24px;
+}
+
+.hero h1 {
+    font-size: clamp(42px, 4.5vw, 62px);
+    line-height: 1.12;
+    font-weight: 800;
+    letter-spacing: -1.8px;
+    color: var(--text);
+    margin-bottom: 22px;
+}
+
+.hero h1 span {
+    color: var(--primary);
+}
+
+.hero-description {
+    max-width: 490px;
+    font-size: 17px;
+    line-height: 1.8;
+    color: var(--muted);
+    margin-bottom: 30px;
+}
+
+.hero-buttons {
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+.primary-btn,
+.secondary-btn {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    gap: 9px;
+    padding: 15px 24px;
+    border-radius: 11px;
+    font-weight: 700;
+    font-size: 14px;
+    transition: 0.3s;
+}
+
+.primary-btn {
+    background: var(--primary);
+    color: white;
+    box-shadow: 0 9px 22px #3944BC35;
+}
+
+.primary-btn:hover {
+    background: var(--dark);
+    transform: translateY(-3px);
+}
+
+.secondary-btn {
+    color: var(--primary);
+    background: white;
+    border: 1px solid #C9CCF5;
+}
+
+.secondary-btn:hover {
+    background: var(--light);
+    transform: translateY(-3px);
+}
+
+.hero-stats {
+    display: flex;
+    gap: 40px;
+    margin-top: 43px;
+    flex-wrap: wrap;
+}
+
+.stat h3 {
+    font-size: 25px;
+    color: var(--primary);
+}
+
+.stat p {
+    font-size: 12px;
+    color: var(--muted);
+    margin-top: 4px;
+}
+
+/* HERO IMAGE */
+
+.hero-image {
+    position: relative;
+    min-width: 0;
+}
+
+.hero-image img {
+    width: 100%;
+    height: 390px;
+    object-fit: cover;
+    object-position: center;
+    border-radius: 45% 10% 45% 10%;
+    border: 9px solid white;
+    box-shadow: 0 20px 50px #3944BC25;
+}
+
+.image-label {
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+    background: white;
+    border-radius: 12px;
+    padding: 13px 18px;
+    box-shadow: 0 8px 25px #00000015;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--primary);
+}
+
+/* GENERAL SECTION */
+
+section {
+    scroll-margin-top: 76px;
+}
+
+.section-heading {
+    text-align: center;
+    max-width: 680px;
+    margin: 0 auto 45px;
+}
+
+.section-heading h2 {
+    font-size: clamp(28px, 3vw, 37px);
+    color: var(--text);
+    margin-bottom: 12px;
+    font-weight: 800;
+}
+
+.section-heading h2 span {
+    color: var(--primary);
+}
+
+.section-heading p {
+    color: var(--muted);
+    line-height: 1.7;
+    font-size: 15px;
+}
+
+/* FEATURES */
+
+.features {
+    padding: 75px 7%;
+    background: white;
+}
+
+.feature-grid {
+    max-width: 1250px;
+    margin: auto;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 18px;
+}
+
+.feature-card {
+    background: linear-gradient(145deg, white, #F4F4FF);
+    padding: 27px 23px;
+    border: 1px solid #E2E4FF;
+    border-radius: 19px;
+    box-shadow: 0 7px 20px #3944BC0D;
+    transition: 0.3s;
+}
+
+.feature-card:hover {
+    transform: translateY(-7px);
+    box-shadow: 0 15px 30px #3944BC20;
+    border-color: #B9BDF0;
+}
+
+.feature-icon {
+    width: 55px;
+    height: 55px;
+    display: grid;
+    place-items: center;
+    background: #E6E7FF;
+    border-radius: 16px;
+    font-size: 27px;
+    margin-bottom: 20px;
+}
+
+.feature-card h3 {
+    font-size: 16px;
+    margin-bottom: 10px;
+    color: var(--text);
+}
+
+.feature-card p {
+    color: var(--muted);
+    font-size: 13px;
+    line-height: 1.7;
+}
+
+/* HOW IT WORKS */
+
+.how-it-works {
+    padding: 80px 7%;
+    background: linear-gradient(120deg, #F7F7FF, #ECEEFF);
+}
+
+.steps {
+    max-width: 1100px;
+    margin: auto;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 35px;
+}
+
+.step {
+    position: relative;
+    text-align: center;
+    padding: 35px 25px;
+    border: 1px solid #DDDEFF;
+    border-radius: 20px;
+    background: rgba(255,255,255,0.75);
+    box-shadow: 0 8px 20px #3944BC0C;
+    transition: 0.3s;
+}
+
+.step:hover {
+    transform: translateY(-5px);
+}
+
+.step-number {
+    width: 48px;
+    height: 48px;
+    display: grid;
+    place-items: center;
+    margin: 0 auto 18px;
+    border-radius: 50%;
+    background: var(--primary);
+    color: white;
+    font-weight: 800;
+    font-size: 19px;
+    box-shadow: 0 5px 15px #3944BC40;
+}
+
+.step-icon {
+    font-size: 35px;
+    margin-bottom: 15px;
+}
+
+.step h3 {
+    margin-bottom: 10px;
+    font-size: 19px;
+}
+
+.step p {
+    color: var(--muted);
+    font-size: 14px;
+    line-height: 1.7;
+}
+
+/* PORTALS */
+
+.login-section {
+    padding: 80px 7%;
+    background: white;
+}
+
+.portal-layout {
+    max-width: 1200px;
+    margin: auto;
+    display: grid;
+    grid-template-columns: 0.7fr 2.3fr;
+    align-items: center;
+    gap: 30px;
+}
+
+.portal-intro {
+    border-right: 2px solid var(--primary);
+    padding: 20px;
+}
+
+.portal-intro h2 {
+    font-size: 31px;
+    margin-bottom: 12px;
+}
+
+.portal-intro h2 span {
+    color: var(--primary);
+}
+
+.portal-intro p {
+    color: var(--muted);
+    font-size: 14px;
+    line-height: 1.7;
+}
+
+.login-cards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+}
+
+.login-card {
+    text-align: center;
+    padding: 27px 18px;
+    border: 1px solid #DEDEFF;
+    border-radius: 18px;
+    background: linear-gradient(145deg, white, #F1F1FF);
+    transition: 0.3s;
+}
+
+.login-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 12px 28px #3944BC20;
+}
+
+.portal-icon {
+    font-size: 37px;
+    color: var(--primary);
+    margin-bottom: 12px;
+}
+
+.login-card h3 {
+    font-size: 17px;
+    margin-bottom: 9px;
+}
+
+.login-card p {
+    min-height: 55px;
+    color: var(--muted);
+    font-size: 13px;
+    line-height: 1.6;
+    margin-bottom: 18px;
+}
+
+.login-btn {
+    display: inline-block;
+    padding: 11px 19px;
+    border-radius: 9px;
+    background: var(--primary);
+    color: white;
+    font-size: 13px;
+    font-weight: 700;
+    transition: 0.3s;
+}
+
+.login-btn:hover {
+    background: var(--dark);
+}
+
+/* ABOUT */
+
+.about {
+    padding: 80px 7%;
+    background: linear-gradient(120deg, #F6F6FF, #EBEDFF);
+}
+
+.about-layout {
+    max-width: 1200px;
+    margin: auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 55px;
+    align-items: center;
+}
+
+.about-image {
+    position: relative;
+}
+
+.about-image img {
+    width: 100%;
+    height: 340px;
+    object-fit: cover;
+    border-radius: 25px;
+    box-shadow: 0 15px 35px #3944BC25;
+}
+
+.about-content h2 {
+    font-size: 36px;
+    margin-bottom: 12px;
+}
+
+.about-content h2 span {
+    color: var(--primary);
+}
+
+.about-content h3 {
+    font-size: 19px;
+    margin-bottom: 20px;
+}
+
+.about-content p {
+    color: var(--muted);
+    line-height: 1.8;
+    font-size: 14px;
+    margin-bottom: 20px;
+}
+
+.about-list {
+    list-style: none;
+}
+
+.about-list li {
+    margin: 13px 0;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.about-list li span {
+    display: inline-grid;
+    place-items: center;
+    width: 23px;
+    height: 23px;
+    background: var(--primary);
+    color: white;
+    border-radius: 50%;
+    margin-right: 10px;
+    font-size: 12px;
+}
+
+/* FINAL CTA */
+
+.cta {
+    padding: 65px 7%;
+    text-align: center;
+    background: white;
+}
+
+.cta-box {
+    max-width: 1100px;
+    margin: auto;
+    padding: 48px 25px;
+    border-radius: 24px;
+    color: white;
+    background: linear-gradient(120deg, #3944BC, #242B88);
+    box-shadow: 0 15px 35px #3944BC30;
+}
+
+.cta-box h2 {
+    font-size: 32px;
+    margin-bottom: 12px;
+}
+
+.cta-box p {
+    font-size: 15px;
+    color: #E5E6FF;
+    margin-bottom: 24px;
+}
+
+.cta-box .secondary-btn {
+    background: white;
+    border: none;
+}
+
+/* FOOTER */
+
+footer {
+    background: #20246F;
+    color: white;
+}
+
+.footer-main {
+    padding: 48px 7%;
+    display: grid;
+    grid-template-columns: 1.3fr 1fr 1fr 1fr;
+    gap: 35px;
+}
+
+.footer-logo {
+    font-size: 25px;
+    font-weight: 800;
+    margin-bottom: 12px;
+}
+
+.footer-main p {
+    font-size: 13px;
+    line-height: 1.8;
+    color: #D5D7FF;
+}
+
+.footer-column h3 {
+    font-size: 15px;
+    margin-bottom: 18px;
+}
+
+.footer-column a {
+    display: block;
+    color: #D5D7FF;
+    font-size: 13px;
+    margin-bottom: 12px;
+}
+
+.footer-column a:hover {
+    color: white;
+}
+
+.footer-bottom {
+    border-top: 1px solid #555AA5;
+    padding: 19px 7%;
+    display: flex;
+    justify-content: space-between;
+    gap: 15px;
+    flex-wrap: wrap;
+    font-size: 12px;
+    color: #E1E2FF;
+}
+
+/* ANIMATION */
+
+.reveal {
+    opacity: 0;
+    transform: translateY(25px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+}
+
+.reveal.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* RESPONSIVE */
+
+@media(max-width: 1050px) {
+    .feature-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .portal-layout {
+        grid-template-columns: 1fr;
+    }
+
+    .portal-intro {
+        text-align: center;
+        border-right: none;
+        border-bottom: 2px solid var(--primary);
+    }
+
+    .hero-image img {
+        height: 320px;
+    }
+}
+
+@media(max-width: 768px) {
+    nav {
+        height: 68px;
+        padding: 0 5%;
+    }
+
+    .logo {
+        font-size: 21px;
+    }
+
+    .menu-btn {
+        display: block;
+    }
+
+    .nav-links {
+        display: none;
+        position: absolute;
+        top: 68px;
+        left: 0;
+        width: 100%;
+        background: white;
+        padding: 20px 6%;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 20px;
+        box-shadow: 0 10px 20px #00000012;
+    }
+
+    .nav-links.active {
+        display: flex;
+    }
+
+    .hero {
+        grid-template-columns: 1fr;
+        padding: 55px 6%;
+        text-align: center;
+    }
+
+    .hero-content {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .hero-description {
+        font-size: 15px;
+    }
+
+    .hero-image img {
+        height: 290px;
+        border-radius: 25px;
+    }
+
+    .hero-stats {
+        justify-content: center;
+        gap: 28px;
+    }
+
+    .features,
+    .how-it-works,
+    .login-section,
+    .about {
+        padding: 60px 6%;
+    }
+
+    .steps {
+        grid-template-columns: 1fr;
+        gap: 18px;
+    }
+
+    .login-cards {
+        grid-template-columns: 1fr;
+    }
+
+    .about-layout {
+        grid-template-columns: 1fr;
+        gap: 30px;
+    }
+
+    .about-image img {
+        height: 270px;
+    }
+
+    .about-content {
+        text-align: center;
+    }
+
+    .about-content h2 {
+        font-size: 30px;
+    }
+
+    .about-list {
+        display: inline-block;
+        text-align: left;
+    }
+
+    .footer-main {
+        grid-template-columns: repeat(2, 1fr);
+        padding: 40px 6%;
+    }
+}
+
+@media(max-width: 480px) {
+    .hero h1 {
+        font-size: 39px;
+    }
+
+    .hero-buttons {
+        width: 100%;
+        flex-direction: column;
+    }
+
+    .hero-buttons a {
+        width: 100%;
+    }
+
+    .hero-image img {
+        height: 220px;
+    }
+
+    .feature-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .section-heading h2 {
+        font-size: 27px;
+    }
+
+    .footer-main {
+        grid-template-columns: 1fr;
+    }
+
+    .footer-bottom {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .cta-box h2 {
+        font-size: 25px;
+    }
+}
+</style>
 </head>
-
 
 <body>
 
-
-<!-- ================= NAVBAR ================= -->
+<!-- NAVBAR -->
 
 <nav>
+    <a href="#home" class="logo">
+        <div class="logo-icon">hU</div>
+        HearUs
+    </a>
 
-    <div class="logo">
+    <button class="menu-btn" id="menuBtn" aria-label="Open navigation"
+        aria-expanded="false">☰</button>
 
-        <div class="logo-icon">
-            hU
-        </div>
-
-        hearUs
-
+    <div class="nav-links" id="navLinks">
+        <a href="#home">Home</a>
+        <a href="#features">Features</a>
+        <a href="#how-it-works">How It Works</a>
+        <a href="#about">About</a>
+        <a href="#login">Login</a>
+        <a href="student/login.html" class="nav-btn">Get Started →</a>
     </div>
-
-
-    <div class="nav-links">
-
-        <a href="#features">
-            Features
-        </a>
-
-        <a href="#how-it-works">
-            How It Works
-        </a>
-
-        <a href="#login">
-            Login
-        </a>
-
-    </div>
-
 </nav>
 
 
+<!-- HERO -->
 
-<!-- ================= HERO ================= -->
+<section class="hero" id="home">
 
-<section class="hero">
-
-    <div class="hero-content">
+    <div class="hero-content reveal">
 
         <div class="badge">
-            Smart Campus Grievance Platform
+            🎓 Smart Campus Grievance Platform
         </div>
-
 
         <h1>
-            Make campus issues
-            <span>heard & resolved.</span>
+            Your Campus Voice
+            for a <span>Better Tomorrow.</span>
         </h1>
 
-
         <p class="hero-description">
-
-            CampusResolve connects students, authorities and administrators
-            through one simple platform to submit, track and resolve
-            campus grievances efficiently.
-
+            Report, track and resolve campus issues easily,
+            transparently and securely. Your voice matters,
+            and every concern deserves attention.
         </p>
 
-
         <div class="hero-buttons">
-
-            <a
-                href="student/login.html"
-                class="primary-btn"
-            >
-                Submit a Complaint
+            <a href="student/login.html" class="primary-btn">
+                ✎ Submit a Complaint
             </a>
 
-
-            <a
-                href="#features"
-                class="secondary-btn"
-            >
-                Explore Platform
+            <a href="#features" class="secondary-btn">
+                ▶ Explore Platform
             </a>
-
         </div>
 
-
-        <div class="stats">
-
+        <div class="hero-stats">
             <div class="stat">
-
                 <h3>3</h3>
-
-                <p>
-                    User Roles
-                </p>
-
+                <p>User Roles</p>
             </div>
 
-
             <div class="stat">
-
                 <h3>24/7</h3>
-
-                <p>
-                    Complaint Tracking
-                </p>
-
+                <p>Complaint Tracking</p>
             </div>
-
 
             <div class="stat">
-
                 <h3>1</h3>
-
-                <p>
-                    Unified Platform
-                </p>
-
+                <p>Unified Platform</p>
             </div>
-
         </div>
+    </div>
 
+    <div class="hero-image reveal">
+        <img src="assets/college-building.jpg"
+             alt="College campus building"
+             onerror="this.style.display='none'">
+
+        <div class="image-label">
+            🏫 A Better Campus Starts With Your Voice
+        </div>
     </div>
 
 </section>
 
 
+<!-- FEATURES -->
 
-<!-- ================= FEATURES ================= -->
+<section class="features" id="features">
 
-<section
-    class="features"
-    id="features"
->
-
-    <div class="section-heading">
-
-        <h2>
-            Everything needed for better campus communication
-        </h2>
-
+    <div class="section-heading reveal">
+        <h2>Everything You Need for a <span>Better Campus</span></h2>
         <p>
-            CampusResolve provides a structured workflow for reporting,
-            assigning, tracking and resolving student grievances.
+            One platform to report concerns, stay informed
+            and make campus communication easier.
         </p>
-
     </div>
-
 
     <div class="feature-grid">
 
-
-        <div class="feature-card">
-
-            <div class="feature-icon">
-                📝
-            </div>
-
-            <h3>
-                Easy Complaint Submission
-            </h3>
-
+        <div class="feature-card reveal">
+            <div class="feature-icon">🛡️</div>
+            <h3>Secure & Confidential</h3>
             <p>
-                Students can quickly submit campus-related complaints
-                and provide the information needed for resolution.
+                Your concerns are handled with privacy
+                and appropriate access controls.
             </p>
-
         </div>
 
-
-
-        <div class="feature-card">
-
-            <div class="feature-icon">
-                🔎
-            </div>
-
-            <h3>
-                Track Complaint Status
-            </h3>
-
+        <div class="feature-card reveal">
+            <div class="feature-icon">⚡</div>
+            <h3>Real-Time Tracking</h3>
             <p>
-                Students can monitor the progress of their complaints
-                from submission to final resolution.
+                Follow your complaint status and stay
+                informed throughout the process.
             </p>
-
         </div>
 
-
-
-        <div class="feature-card">
-
-            <div class="feature-icon">
-                ⚡
-            </div>
-
-            <h3>
-                Faster Resolution Workflow
-            </h3>
-
+        <div class="feature-card reveal">
+            <div class="feature-icon">👥</div>
+            <h3>Role-Based Access</h3>
             <p>
-                Authorities can manage assigned complaints and update
-                their status through a centralized dashboard.
+                Separate portals for students,
+                authorities and administrators.
             </p>
-
         </div>
 
-
-
-        <div class="feature-card">
-
-            <div class="feature-icon">
-                📊
-            </div>
-
-            <h3>
-                Administrative Overview
-            </h3>
-
+        <div class="feature-card reveal">
+            <div class="feature-icon">📊</div>
+            <h3>Actionable Insights</h3>
             <p>
-                Administrators get an overview of complaints and their
-                current status across the campus.
+                Help authorities identify complaint
+                patterns and recurring campus issues.
             </p>
-
-        </div>
-
-
-
-        <div class="feature-card">
-
-            <div class="feature-icon">
-                🔐
-            </div>
-
-            <h3>
-                Role-Based Access
-            </h3>
-
-            <p>
-                Students, authorities and administrators access
-                functionality relevant to their role.
-            </p>
-
-        </div>
-
-
-
-        <div class="feature-card">
-
-            <div class="feature-icon">
-                📱
-            </div>
-
-            <h3>
-                Responsive Interface
-            </h3>
-
-            <p>
-                The platform is designed to work across desktops,
-                tablets and mobile devices.
-            </p>
-
         </div>
 
     </div>
-
 </section>
 
 
+<!-- HOW IT WORKS -->
 
-<!-- ================= HOW IT WORKS ================= -->
+<section class="how-it-works" id="how-it-works">
 
-<section
-    class="how-it-works"
-    id="how-it-works"
->
-
-    <div class="section-heading">
-
-        <h2>
-            How CampusResolve works
-        </h2>
-
+    <div class="section-heading reveal">
+        <h2>How <span>HearUs</span> Works?</h2>
         <p>
-            A simple workflow from complaint submission to resolution.
+            A simple and transparent process from
+            complaint submission to resolution.
         </p>
-
     </div>
-
 
     <div class="steps">
 
-
-        <div class="step">
-
-            <div class="step-number">
-                1
-            </div>
-
-            <h3>
-                Submit
-            </h3>
-
+        <div class="step reveal">
+            <div class="step-number">1</div>
+            <div class="step-icon">📄</div>
+            <h3>Submit</h3>
             <p>
-                A student submits a complaint through the platform.
+                Raise your campus issue through
+                the platform in a few easy steps.
             </p>
-
         </div>
 
-
-
-        <div class="step">
-
-            <div class="step-number">
-                2
-            </div>
-
-            <h3>
-                Manage
-            </h3>
-
+        <div class="step reveal">
+            <div class="step-number">2</div>
+            <div class="step-icon">⚙️</div>
+            <h3>Process</h3>
             <p>
-                Authorities review assigned complaints and update
-                their progress.
+                Your complaint is assigned to
+                the appropriate authority for action.
             </p>
-
         </div>
 
+        <div class="step reveal">
+            <div class="step-number">3</div>
+            <div class="step-icon">✅</div>
+            <h3>Resolve</h3>
+            <p>
+                Get status updates and know when
+                your campus issue has been addressed.
+            </p>
+        </div>
+
+    </div>
+</section>
 
 
-        <div class="step">
+<!-- LOGIN PORTALS -->
 
-            <div class="step-number">
-                3
+<section class="login-section" id="login">
+
+    <div class="portal-layout">
+
+        <div class="portal-intro reveal">
+            <h2>Access <span>HearUs</span></h2>
+            <p>
+                Choose the portal that matches
+                your role and access the platform.
+            </p>
+        </div>
+
+        <div class="login-cards">
+
+            <div class="login-card reveal">
+                <div class="portal-icon">🎓</div>
+                <h3>Student Portal</h3>
+                <p>
+                    Submit complaints and track
+                    their resolution status.
+                </p>
+                <a href="student/login.html" class="login-btn">
+                    Student Login →
+                </a>
             </div>
 
-            <h3>
-                Resolve
-            </h3>
+            <div class="login-card reveal">
+                <div class="portal-icon">🏛️</div>
+                <h3>Authority Portal</h3>
+                <p>
+                    Manage assigned complaints
+                    and update their progress.
+                </p>
+                <a href="authority/login.html" class="login-btn">
+                    Authority Login →
+                </a>
+            </div>
+
+            <div class="login-card reveal">
+                <div class="portal-icon">⚙️</div>
+                <h3>Admin Portal</h3>
+                <p>
+                    Monitor complaints, users
+                    and overall platform activity.
+                </p>
+                <a href="admin/login.html" class="login-btn">
+                    Admin Login →
+                </a>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+
+<!-- ABOUT / WHY CHOOSE HEARUS -->
+
+<section class="about" id="about">
+
+    <div class="about-layout">
+
+        <div class="about-image reveal">
+            <img
+                src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=1000&q=85"
+                alt="Students working together on campus">
+        </div>
+
+        <div class="about-content reveal">
+
+            <h2>Why Choose <span>HearUs?</span></h2>
+
+            <h3>Because Your Voice Matters.</h3>
 
             <p>
-                The complaint is updated when the issue has been
-                addressed.
+                HearUs creates a transparent communication
+                channel between students and campus authorities.
+                It makes reporting issues easier and helps
+                ensure that concerns are properly addressed.
             </p>
+
+            <ul class="about-list">
+                <li><span>✓</span> Fast and easy complaint submission</li>
+                <li><span>✓</span> Transparent tracking system</li>
+                <li><span>✓</span> Secure and reliable platform</li>
+                <li><span>✓</span> Better campus communication</li>
+            </ul>
 
         </div>
 
     </div>
-
 </section>
 
 
+<!-- FINAL CALL TO ACTION -->
 
-<!-- ================= LOGIN ================= -->
-
-<section
-    class="login-section"
-    id="login"
->
-
-    <div class="section-heading">
-
-        <h2>
-            Access CampusResolve
-        </h2>
-
+<section class="cta">
+    <div class="cta-box reveal">
+        <h2>Make Your Voice Count!</h2>
         <p>
-            Choose the portal that matches your role.
+            Together, let's build a campus where every concern
+            is heard and every issue gets attention.
         </p>
 
+        <a href="student/login.html" class="secondary-btn">
+            Submit Your Complaint →
+        </a>
     </div>
-
-
-    <div class="login-cards">
-
-
-        <!-- Student -->
-
-        <div class="login-card">
-
-            <h3>
-                🎓 Student
-            </h3>
-
-            <p>
-                Submit complaints and track their resolution status.
-            </p>
-
-            <a
-                href="student/login.html"
-                class="login-btn"
-            >
-                Student Login
-            </a>
-
-        </div>
-
-
-
-        <!-- Authority -->
-
-        <div class="login-card">
-
-            <h3>
-                🏫 Authority
-            </h3>
-
-            <p>
-                Manage assigned complaints and update their progress.
-            </p>
-
-            <a
-                href="authority/login.html"
-                class="login-btn"
-            >
-                Authority Login
-            </a>
-
-        </div>
-
-
-
-        <!-- Admin -->
-
-        <div class="login-card">
-
-            <h3>
-                ⚙️ Administrator
-            </h3>
-
-            <p>
-                Monitor complaints and view the overall campus dashboard.
-            </p>
-
-            <a
-                href="admin/login.html"
-                class="login-btn"
-            >
-                Admin Login
-            </a>
-
-        </div>
-
-    </div>
-
 </section>
 
 
-
-<!-- ================= FOOTER ================= -->
+<!-- FOOTER -->
 
 <footer>
 
-    <p>
-        <strong>CampusResolve</strong>
-        &nbsp;•&nbsp;
-        Smart Campus Grievance Resolution Platform
-    </p>
+    <div class="footer-main">
 
-    <p style="margin-top: 8px;">
-        Built for the Bharat Build Hackathon
-    </p>
+        <div>
+            <div class="footer-logo">◉ HearUs</div>
+            <p>
+                Together for a Better Campus.<br>
+                Making every student voice count.
+            </p>
+        </div>
+
+        <div class="footer-column">
+            <h3>Quick Links</h3>
+            <a href="#home">Home</a>
+            <a href="#features">Features</a>
+            <a href="#how-it-works">How It Works</a>
+            <a href="#about">About</a>
+        </div>
+
+        <div class="footer-column">
+            <h3>Get In Touch</h3>
+            <a href="mailto:support@hearus.in">✉ support@hearus.in</a>
+            <a href="#about">📍 Our Campus</a>
+        </div>
+
+        <div class="footer-column">
+            <h3>Access Portals</h3>
+            <a href="student/login.html">Student Login</a>
+            <a href="authority/login.html">Authority Login</a>
+            <a href="admin/login.html">Admin Login</a>
+        </div>
+
+    </div>
+
+    <div class="footer-bottom">
+        <p>© 2026 HearUs. All rights reserved.</p>
+        <p>Built with ❤️ for a Better Campus</p>
+    </div>
 
 </footer>
 
 
-</body>
+<script>
 
+// MOBILE NAVIGATION
+
+const menuBtn = document.getElementById("menuBtn");
+const navLinks = document.getElementById("navLinks");
+
+menuBtn.addEventListener("click", () => {
+    navLinks.classList.toggle("active");
+
+    const isOpen = navLinks.classList.contains("active");
+    menuBtn.textContent = isOpen ? "✕" : "☰";
+    menuBtn.setAttribute("aria-expanded", isOpen);
+});
+
+// CLOSE MENU AFTER CLICKING A LINK
+
+document.querySelectorAll(".nav-links a").forEach(link => {
+    link.addEventListener("click", () => {
+        navLinks.classList.remove("active");
+        menuBtn.textContent = "☰";
+        menuBtn.setAttribute("aria-expanded", "false");
+    });
+});
+
+// SCROLL REVEAL ANIMATION
+
+const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            entry.target.classList.add("show");
+            observer.unobserve(entry.target);
+        }
+    });
+}, {
+    threshold: 0.12
+});
+
+document.querySelectorAll(".reveal").forEach(element => {
+    observer.observe(element);
+});
+
+</script>
+
+</body>
 </html>
