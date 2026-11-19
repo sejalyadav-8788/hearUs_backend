@@ -842,6 +842,44 @@
 
         }
 
+<<<<<<< HEAD
+    
+        /* ===== complaint timeline ===== */
+        .history-bar { margin-top: 14px; padding-top: 12px; border-top: 1px solid #f1f5f9; }
+        .history-btn { background: #eff6ff; color: #2563eb; border: 1px solid #bfdbfe; padding: 7px 14px; border-radius: 7px; font-size: 13px; font-weight: 600; cursor: pointer; }
+        .history-btn:hover { background: #dbeafe; }
+        .history-box:not(:empty) { margin-top: 12px; border-left: 3px solid #bfdbfe; padding-left: 14px; }
+        .history-row { font-size: 13px; color: #334155; padding: 6px 0; line-height: 1.5; }
+        .history-time { display: block; font-size: 11px; color: #94a3b8; }
+        .history-note { display: block; color: #64748b; }
+    
+        /* ===== toasts ===== */
+        .toast-wrap{position:fixed;right:18px;bottom:18px;display:flex;flex-direction:column;gap:10px;z-index:9999;max-width:340px}
+        .toast{padding:12px 16px;border-radius:10px;color:#fff;font:600 14px "Segoe UI",Arial,sans-serif;box-shadow:0 8px 24px rgba(15,23,42,.25);animation:toastIn .25s ease;background:#1e293b}
+        .toast.ok{background:#16a34a}.toast.warn{background:#d97706}.toast.error{background:#dc2626}
+        @keyframes toastIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+        @media (prefers-reduced-motion:reduce){.toast{animation:none}}
+    
+        /* ===== analytics ===== */
+        .an-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-bottom:28px}
+        .an-card{background:#fff;border:1px solid #e5e7eb;border-radius:14px;padding:20px;box-shadow:0 3px 12px rgba(15,23,42,.05)}
+        .an-card.wide{grid-column:1/-1}
+        .an-card h3{font-size:16px;margin-bottom:4px;color:#172033}
+        .an-card .sub{font-size:12px;color:#64748b;margin-bottom:12px}
+        .chart-box{position:relative;height:230px}
+        .hot-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px}
+        .hot{border:0;border-radius:12px;padding:14px;text-align:left;cursor:pointer;font-family:inherit;transition:transform .15s}
+        .hot:hover{transform:translateY(-2px)}
+        .hot b{display:block;font-size:22px}.hot span{font-size:12px;font-weight:600}
+        @media (max-width:800px){.an-grid{grid-template-columns:1fr}}
+    
+        .history-bar { display: flex; gap: 9px; flex-wrap: wrap; align-items: center; }
+        .act-btn { border: 0; color: #fff; padding: 7px 14px; border-radius: 7px; font-size: 13px; font-weight: 600; cursor: pointer; transition: .2s; }
+        .act-btn.start { background: #2563eb; }
+        .act-btn.start:hover { background: #1d4ed8; }
+        .act-btn.resolve { background: #16a34a; }
+        .act-btn.resolve:hover { background: #15803d; }
+=======
 
         /* ================= ML INSIGHTS ================= */
         .ml-insights { margin-top: 14px; padding: 12px 14px; border: 1px dashed #b9c7d6; border-radius: 10px; background: #f7fafc; font-size: 13px; }
@@ -855,8 +893,11 @@
         .ml-chip.ml-urg-low { background: #e3f6ea; color: #1e7a43; }
         .ml-line { margin-top: 8px; color: #4a5a6a; }
         .ml-line.ml-review { color: #9a5b00; }
+>>>>>>> 5e16ef66c554e92dee56a1aa2aadec4ad25f162d
     </style>
 
+<link rel="stylesheet" href="../theme.css">
+<script src="../theme.js"></script>
 </head>
 
 
@@ -1054,6 +1095,28 @@
 
     <!-- ================= COMPLAINT SECTION ================= -->
 
+    <section class="an-grid" id="analytics">
+
+        <div class="an-card">
+            <h3>Status mix</h3>
+            <p class="sub">All complaints on campus</p>
+            <div class="chart-box"><canvas id="chartStatus"></canvas></div>
+        </div>
+
+        <div class="an-card">
+            <h3>Complaints by category</h3>
+            <p class="sub">Where problems come from</p>
+            <div class="chart-box"><canvas id="chartCategory"></canvas></div>
+        </div>
+
+        <div class="an-card wide">
+            <h3>Campus hotspots</h3>
+            <p class="sub">Locations with the most complaints. Click one to filter the list below.</p>
+            <div id="hotspots" class="hot-grid"></div>
+        </div>
+
+    </section>
+
     <section class="section">
 
 
@@ -1158,7 +1221,30 @@
 
 
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <script>
+
+    /* ================= TOASTS ================= */
+
+    function toast(msg, type) {
+        let wrap = document.querySelector(".toast-wrap");
+        if (!wrap) {
+            wrap = document.createElement("div");
+            wrap.className = "toast-wrap";
+            wrap.setAttribute("role", "status");
+            document.body.appendChild(wrap);
+        }
+        const t = document.createElement("div");
+        t.className = "toast " + (type || "");
+        t.textContent = msg;
+        wrap.appendChild(t);
+        setTimeout(() => {
+            t.style.transition = "opacity .3s";
+            t.style.opacity = "0";
+            setTimeout(() => t.remove(), 300);
+        }, 4500);
+    }
+
 
 
     /* ================= CONFIG ================= */
@@ -1372,7 +1458,7 @@
             const response = await fetch(
 
                 API_URL +
-                "/api/authority/all-complaints",
+                "/api/admin/complaints",
 
                 {
 
@@ -1403,6 +1489,8 @@
 
             allComplaints =
                 complaints || [];
+
+            renderAnalytics();
 
 
             filterComplaints();
@@ -1643,6 +1731,15 @@
 
 
 
+        const finished = ["RESOLVED", "CLOSED"].includes(status);
+        const handler = escapeHtml(
+            c.handledBy ? c.handledBy + " (" + (c.handledByRole || "") + ")" : "Unassigned"
+        );
+        const submitter = escapeHtml(c.submittedBy || "N/A");
+        const resolvedOn = c.resolvedAt
+            ? new Date(c.resolvedAt).toLocaleString("en-IN")
+            : "";
+
         return `
 
             <div class="complaint">
@@ -1776,11 +1873,55 @@
 
                     </div>
 
+                    <div class="detail">
+                        <span class="detail-label">
+                            ${finished ? "Resolved by" : "Currently with"}
+                        </span>
+                        <span class="detail-value">
+                            ${handler}
+                        </span>
+                    </div>
+
+                    <div class="detail">
+                        <span class="detail-label">
+                            Submitted by
+                        </span>
+                        <span class="detail-value">
+                            ${submitter}
+                        </span>
+                    </div>
+
+                    ${resolvedOn ? `
+                    <div class="detail">
+                        <span class="detail-label">
+                            Resolved on
+                        </span>
+                        <span class="detail-value">
+                            ${resolvedOn}
+                        </span>
+                    </div>` : ""}
+
+
 
                 </div>
 
 
+<<<<<<< HEAD
+            
+                <div class="history-bar">
+                    <button class="history-btn" onclick="toggleHistory(${c.id})">
+                        View timeline
+                    </button>
+                    ${finished ? "" : `
+                    ${status === "IN_PROGRESS" ? "" : `<button class="act-btn start" onclick="adminUpdate(${c.id}, 'IN_PROGRESS')">Start Working</button>`}
+                    <button class="act-btn resolve" onclick="adminUpdate(${c.id}, 'RESOLVED')">Mark Resolved</button>`}
+                </div>
+
+                <div id="history-${c.id}" class="history-box"></div>
+
+=======
                 ${mlInsightsHtml(c)}
+>>>>>>> 5e16ef66c554e92dee56a1aa2aadec4ad25f162d
             </div>
 
         `;
@@ -1908,6 +2049,155 @@
 
     }
 
+
+
+    /* ================= ADMIN STATUS UPDATE ================= */
+
+    async function adminUpdate(id, newStatus) {
+
+        const text = newStatus === "RESOLVED"
+            ? "mark this complaint as resolved"
+            : "move this complaint to in progress";
+
+        if (!confirm("Admin override: are you sure you want to " + text + "?")) return;
+
+        try {
+            const r = await fetch(
+                API_URL + "/api/complaints/" + id + "/status?status=" + newStatus,
+                {
+                    method: "PUT",
+                    headers: { "Authorization": "Bearer " + localStorage.getItem("token") }
+                }
+            );
+
+            if (!r.ok) {
+                let reason = "Unable to update complaint.";
+                try {
+                    const body = await r.json();
+                    if (body && body.error) reason = body.error;
+                } catch (e) { /* keep the default message */ }
+                throw new Error(reason);
+            }
+
+            toast(newStatus === "RESOLVED" ? "Complaint marked as resolved." : "Complaint moved to in progress.", "ok");
+            await refreshDashboard();
+
+        } catch (e) {
+            console.error(e);
+            toast(e.message, "error");
+        }
+    }
+
+
+    /* ================= COMPLAINT TIMELINE ================= */
+
+    async function toggleHistory(id) {
+
+        const box = document.getElementById("history-" + id);
+
+        if (box.dataset.open === "1") {
+            box.innerHTML = "";
+            box.dataset.open = "0";
+            return;
+        }
+
+        box.dataset.open = "1";
+        box.innerHTML = '<div class="history-row">Loading timeline...</div>';
+
+        try {
+            const r = await fetch(
+                API_URL + "/api/admin/complaints/" + id + "/history",
+                { headers: { "Authorization": "Bearer " + localStorage.getItem("token") } }
+            );
+
+            if (!r.ok) throw new Error("HTTP " + r.status);
+
+            const rows = await r.json();
+
+            box.innerHTML = rows.length
+                ? rows.map(h => `
+                    <div class="history-row">
+                        <span class="history-time">${new Date(h.createdAt).toLocaleString("en-IN")}</span>
+                        <strong>${escapeHtml(h.actor || "SYSTEM")}</strong>
+                        ${h.oldStatus ? escapeHtml(formatStatus(String(h.oldStatus))) + " &rarr; " : ""}${escapeHtml(formatStatus(String(h.newStatus || "")))}
+                        <span class="history-note">${escapeHtml(h.note || "")}</span>
+                    </div>`).join("")
+                : '<div class="history-row">No history recorded for this complaint.</div>';
+
+        } catch (e) {
+            console.error(e);
+            box.innerHTML = '<div class="history-row">Could not load the timeline (' + escapeHtml(e.message) + '). Check the backend console.</div>';
+        }
+    }
+
+
+/* ================= ANALYTICS ================= */
+
+    const charts = {};
+
+    function countBy(list, key) {
+        return list.reduce((m, c) => {
+            const k = String(c[key] || "Other");
+            m[k] = (m[k] || 0) + 1;
+            return m;
+        }, {});
+    }
+
+    function drawChart(id, type, data, colors) {
+        if (charts[id]) charts[id].destroy();
+        charts[id] = new Chart(document.getElementById(id), {
+            type,
+            data: {
+                labels: Object.keys(data).map(k => k.replaceAll("_", " ")),
+                datasets: [{ data: Object.values(data), backgroundColor: colors, borderRadius: 6 }]
+            },
+            options: {
+                maintainAspectRatio: false,
+                plugins: { legend: { display: type === "doughnut", position: "bottom" } },
+                scales: type === "bar" ? { y: { beginAtZero: true, ticks: { precision: 0 } } } : {}
+            }
+        });
+    }
+
+    function renderAnalytics() {
+        if (typeof Chart === "undefined") return;
+        const list = allComplaints || [];
+
+        drawChart("chartStatus", "doughnut", countBy(list, "status"),
+            ["#f59e0b", "#3b82f6", "#6366f1", "#ef4444", "#22c55e", "#94a3b8"]);
+        drawChart("chartCategory", "bar", countBy(list, "category"), "#3b82f6");
+
+        const places = {};
+        list.forEach(c => {
+            const name = String(c.location || "Unknown").trim();
+            const key = name.toLowerCase();
+            places[key] = places[key] || { name, n: 0 };
+            places[key].n++;
+        });
+        const top = Object.values(places).sort((a, b) => b.n - a.n).slice(0, 8);
+        const max = top.length ? top[0].n : 1;
+
+        document.getElementById("hotspots").innerHTML = top.length
+            ? top.map(p => {
+                const a = 0.15 + 0.85 * (p.n / max);
+                const safe = escapeHtml(p.name);
+                return '<button class="hot" style="background:rgba(239,68,68,' + a.toFixed(2) +
+                    ');color:' + (a > 0.55 ? "#fff" : "#7f1d1d") + '" data-name="' + safe + '">' +
+                    "<b>" + p.n + "</b><span>" + safe + "</span></button>";
+            }).join("")
+            : '<p class="sub">No complaints yet.</p>';
+    }
+
+    document.getElementById("hotspots").addEventListener("click", e => {
+        const b = e.target.closest(".hot");
+        if (!b) return;
+        const box = document.getElementById("searchInput");
+        box.value = b.dataset.name;
+        box.dispatchEvent(new Event("input", { bubbles: true }));
+        box.dispatchEvent(new Event("keyup", { bubbles: true }));
+        document.getElementById("complaintList").scrollIntoView({ behavior: "smooth" });
+        toast("Showing complaints for " + b.dataset.name, "ok");
+    });
 
 
     /* ================= START ================= */
