@@ -47,6 +47,18 @@ public class complaint {
     @Transient
     private String assignedToRole;
 
+    // ---------- ML service results (all nullable: old rows simply have no ML data) ----------
+    private String mlCategory;          // Academics / Administration / Harassment / Hostel / Infrastructure
+    private Double mlConfidence;        // 0..1 confidence of mlCategory
+    private String mlUrgency;           // Low / Medium / High / Critical
+    private String mlSafetyFlags;       // e.g. "ragging,violence"
+    private String mlNotify;            // committees to inform, e.g. "Anti-Ragging Committee"
+    private Boolean mlProfane;          // abusive words found in the text
+    private Boolean mlNeedsReview;      // a human should double-check this complaint
+    @Column(columnDefinition = "TEXT")
+    private String mlReviewReasons;
+    private String mlDuplicateOf;       // IDs of similar open complaints, e.g. "12,15"
+
     public complaint() {
     }
 
@@ -191,4 +203,32 @@ public class complaint {
     public void setAssignedToRole(String assignedToRole) {
         this.assignedToRole = assignedToRole;
     }
+
+    // ---------- ML service results ----------
+    public String getMlCategory() { return mlCategory; }
+    public void setMlCategory(String mlCategory) { this.mlCategory = mlCategory; }
+
+    public Double getMlConfidence() { return mlConfidence; }
+    public void setMlConfidence(Double mlConfidence) { this.mlConfidence = mlConfidence; }
+
+    public String getMlUrgency() { return mlUrgency; }
+    public void setMlUrgency(String mlUrgency) { this.mlUrgency = mlUrgency; }
+
+    public String getMlSafetyFlags() { return mlSafetyFlags; }
+    public void setMlSafetyFlags(String mlSafetyFlags) { this.mlSafetyFlags = mlSafetyFlags; }
+
+    public String getMlNotify() { return mlNotify; }
+    public void setMlNotify(String mlNotify) { this.mlNotify = mlNotify; }
+
+    public Boolean getMlProfane() { return mlProfane; }
+    public void setMlProfane(Boolean mlProfane) { this.mlProfane = mlProfane; }
+
+    public Boolean getMlNeedsReview() { return mlNeedsReview; }
+    public void setMlNeedsReview(Boolean mlNeedsReview) { this.mlNeedsReview = mlNeedsReview; }
+
+    public String getMlReviewReasons() { return mlReviewReasons; }
+    public void setMlReviewReasons(String mlReviewReasons) { this.mlReviewReasons = mlReviewReasons; }
+
+    public String getMlDuplicateOf() { return mlDuplicateOf; }
+    public void setMlDuplicateOf(String mlDuplicateOf) { this.mlDuplicateOf = mlDuplicateOf; }
 }

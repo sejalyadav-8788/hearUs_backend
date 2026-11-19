@@ -43,6 +43,17 @@ public class escalationService {
         return LocalDateTime.now().plusMinutes(escalationMinutes);
     }
 
+    /**
+     * URGENT complaints (set by the student or raised by the ML safety check)
+     * get a quarter of the normal time before they escalate to the next level.
+     */
+    public LocalDateTime newDeadline(complaint c) {
+        if ("URGENT".equalsIgnoreCase(c.getPriority())) {
+            return LocalDateTime.now().plusMinutes(Math.max(1, escalationMinutes / 4));
+        }
+        return newDeadline();
+    }
+
     @Scheduled(fixedRate = 60000)
     public void checkOverdueComplaints() {
         for (complaint c : complaintRepository.findByDeadlineBeforeAndStatusNotIn(
@@ -93,7 +104,7 @@ public class escalationService {
                 c.setAssignedAuthorityId(handler.getId());
                 c.setEscalationLevel(level);
                 c.setStatus(level == 0 ? "ASSIGNED" : "ESCALATED");
-                c.setDeadline(newDeadline());
+                c.setDeadline(newDeadline(c));
                 return true;
             }
             level++;

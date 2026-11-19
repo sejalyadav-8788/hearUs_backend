@@ -607,6 +607,19 @@
         .toast.ok{background:#16a34a}.toast.warn{background:#d97706}.toast.error{background:#dc2626}
         @keyframes toastIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
         @media (prefers-reduced-motion:reduce){.toast{animation:none}}
+
+        /* ================= ML INSIGHTS ================= */
+        .ml-insights { margin-top: 14px; padding: 12px 14px; border: 1px dashed #b9c7d6; border-radius: 10px; background: #f7fafc; font-size: 13px; }
+        .ml-insights.ml-none { color: #8a96a3; font-style: italic; }
+        .ml-title { font-weight: 700; color: #34495e; margin-bottom: 8px; letter-spacing: .3px; }
+        .ml-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+        .ml-chip { padding: 4px 10px; border-radius: 999px; background: #e8eef4; color: #2c3e50; font-weight: 600; font-size: 12px; }
+        .ml-chip.ml-urg-critical, .ml-chip.ml-danger { background: #fde2e2; color: #b42318; }
+        .ml-chip.ml-urg-high, .ml-chip.ml-warn { background: #fff1d6; color: #9a5b00; }
+        .ml-chip.ml-urg-medium, .ml-chip.ml-info { background: #e0efff; color: #1d4f91; }
+        .ml-chip.ml-urg-low { background: #e3f6ea; color: #1e7a43; }
+        .ml-line { margin-top: 8px; color: #4a5a6a; }
+        .ml-line.ml-review { color: #9a5b00; }
     </style>
 
 </head>
@@ -838,7 +851,7 @@
 
     /* ================= CONFIG ================= */
 
-    const API_URL = "http://localhost:8080";
+    const API_URL = "http://localhost:8081";
     const token =
         localStorage.getItem("authorityToken");
 
@@ -997,7 +1010,7 @@
         let priorityClass = "priority-medium";
 
 
-        if (priority === "HIGH") {
+        if (priority === "HIGH" || priority === "URGENT") {
 
             priorityClass = "priority-high";
 
@@ -1166,6 +1179,8 @@
                 </div>
 
 
+
+                ${mlInsightsHtml(c)}
 
                 <div class="complaint-footer">
 
@@ -1354,6 +1369,33 @@
 
 
     /* ================= SECURITY ================= */
+
+    /* ================= ML INSIGHTS ================= */
+
+    // Shows what the HearUs ML service found for a complaint.
+    function mlInsightsHtml(c) {
+        if (!c.mlCategory && !c.mlUrgency) {
+            return `<div class="ml-insights ml-none">ML check: not available for this complaint (ML service was off when it was submitted)</div>`;
+        }
+        const chips = [];
+        const urgency = String(c.mlUrgency || "").toLowerCase();
+        chips.push(`<span class="ml-chip ml-urg-${urgency}">Urgency: ${escapeHtml(c.mlUrgency || "-")}</span>`);
+        const confidence = c.mlConfidence != null ? ` (${Math.round(c.mlConfidence * 100)}%)` : "";
+        chips.push(`<span class="ml-chip">Category: ${escapeHtml(c.mlCategory || "-")}${confidence}</span>`);
+        String(c.mlSafetyFlags || "").split(",").filter(Boolean).forEach(flag => {
+            chips.push(`<span class="ml-chip ml-danger">Safety: ${escapeHtml(flag)}</span>`);
+        });
+        if (c.sensitive) chips.push(`<span class="ml-chip ml-danger">Sensitive</span>`);
+        if (c.mlProfane) chips.push(`<span class="ml-chip ml-warn">Abusive language</span>`);
+        if (c.mlDuplicateOf) {
+            const ids = String(c.mlDuplicateOf).split(",").filter(Boolean).map(id => "#" + escapeHtml(id)).join(", ");
+            chips.push(`<span class="ml-chip ml-info">Similar to ${ids}</span>`);
+        }
+        let lines = "";
+        if (c.mlNotify) lines += `<div class="ml-line"><strong>Notify:</strong> ${escapeHtml(c.mlNotify)}</div>`;
+        if (c.mlNeedsReview) lines += `<div class="ml-line ml-review"><strong>Needs review:</strong> ${escapeHtml(c.mlReviewReasons || "yes")}</div>`;
+        return `<div class="ml-insights"><div class="ml-title">ML insights</div><div class="ml-chips">${chips.join("")}</div>${lines}</div>`;
+    }
 
     function escapeHtml(value) {
 

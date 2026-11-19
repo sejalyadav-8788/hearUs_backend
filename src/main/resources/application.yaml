@@ -4,12 +4,12 @@ aws:
 
 spring:
   application:
-    name: campusresolve-backend
+    name: campusresolve
 
   datasource:
     url: jdbc:postgresql://localhost:5432/campusresolve
     username: postgres
-    password: sejal@#1516
+    password: admin123
 
   jpa:
     hibernate:
@@ -20,10 +20,19 @@ spring:
         format_sql: true
 
 server:
-  port: 8080
+  port: 8081
+
+ml:
+  service:
+    # HearUs ML service (Python): uvicorn hearus_ml.api:app --port 8001
+    url: ${ML_SERVICE_URL:http://127.0.0.1:8001}
+    enabled: true          # false = save complaints without calling ML
+    timeout-ms: 5000       # give up on ML after 5 s; the complaint is still saved
+    api-key: ${HEARUS_API_KEY:}
+
 
 escalation:
-  minutes: 2        # demo value; use 1440 (one day) for real use
+   minutes: 2        # demo value; use 1440 (one day) for real use
 
 jwt:
-  secret: ${JWT_SECRET:change-this-to-a-long-random-string-of-at-least-32-characters}
+   secret: ${JWT_SECRET:change-this-to-a-long-random-string-of-at-least-32-characters}
